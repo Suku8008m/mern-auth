@@ -1,0 +1,72 @@
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+}
+
+nav button {
+  height: 30px;
+  padding: 0 10px;
+  border-radius: 15px;
+  border: 2px solid #d1d1d1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+nav img {
+  cursor: pointer;
+}
+
+nav .userName {
+  box-sizing: border-box;
+  width: 28px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  background-color: rgb(190, 190, 190);
+  color: #fff;
+  cursor: pointer;
+}
+
+nav .user-logo {
+  position: relative;
+}
+
+nav .user-logo ul {
+  position: absolute;
+  bottom: -1;
+  right: -10px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+nav .user-logo ul li {
+  font-size: 12px;
+  width: max-content;
+  margin: 5px;
+  cursor: pointer;
+}
+
+nav .user-logo .userName {
+  background-color: rgb(22, 21, 21);
+}
+
+nav .user-logo:hover .options {
+  display: block;
+  background-color: #000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+}

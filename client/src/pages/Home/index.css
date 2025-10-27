@@ -1,0 +1,39 @@
+header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+header img {
+  width: 180px;
+}
+
+header h2 {
+  font-size: 25px;
+  font-weight: 500;
+}
+
+header button {
+  height: 40px;
+  padding: 0 25px;
+  border-radius: 20px;
+  font-size: 19px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+header .hello {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+header .hello img {
+  width: 40px;
+}
+
+header .hello h2 .userName {
+  text-transform: capitalize;
+}

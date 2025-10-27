@@ -1,0 +1,57 @@
+.EmailVerify {
+  height: 100vh;
+  background-image: linear-gradient(rgba(22, 116, 86, 0.595), rgb(36, 71, 88));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.verify-box {
+  color: #fff;
+  padding: 3% 5%;
+  text-align: center;
+  background-color: rgb(2, 2, 30);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.verify-box h1 {
+  font-size: 26px;
+}
+
+.verify-box p {
+  font-size: 14px;
+}
+
+.verify-box .otp {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+}
+
+.verify-box .otp .input {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(57, 57, 57, 0.382);
+  color: #fff;
+  text-align: center;
+  font-size: large;
+  border-radius: 3px;
+  border-style: none;
+}
+
+.verify-box button {
+  width: 90%;
+  padding: 8px 0px;
+  border-radius: 16px;
+  border-style: none;
+  background-image: linear-gradient(rgba(22, 116, 86, 0.595), rgb(36, 71, 88));
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
