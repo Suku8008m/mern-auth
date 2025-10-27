@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  console.log(location.pathname);
   const { userData, backendUrl, setUserData, setIsLoggedin } =
     useContext(AppContext);
 
@@ -45,7 +46,12 @@ const NavBar = () => {
       <img src={assets.logo} alt="" onClick={() => navigate("/")} />
       {userData ? (
         <div className="user-logo">
-          <p className="userName">{userData.name[0]}</p>
+          {location.pathname !== "/login" &&
+            location.pathname !== "/reset-password" &&
+            location.pathname !== "/email-verify" && (
+              <p className="userName">{userData.name[0]}</p>
+            )}
+
           <ul className="options">
             {!userData.isAccountVerified && (
               <li onClick={sendVerificationOtp}>Verify Email</li>
@@ -55,7 +61,8 @@ const NavBar = () => {
         </div>
       ) : (
         location.pathname !== "/login" &&
-        location.pathname !== "/reset-password" && (
+        location.pathname !== "/reset-password" &&
+        location.pathname !== "/email-verify" && (
           <button type="button" onClick={() => navigate("/login")}>
             Login <img src={assets.arrow_icon} alt="" />
           </button>

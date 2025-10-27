@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { assets } from "../.././assets/assets";
@@ -9,7 +9,9 @@ import { toast } from "react-toastify";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { backendUrl, setIsLoggedin, getUserData } = useContext(AppContext);
+
+  const { backendUrl, isLoggedin, userData, setIsLoggedin, getUserData } =
+    useContext(AppContext);
 
   const [state, setState] = useState("Sign Up");
   const [name, setName] = useState("");
@@ -64,6 +66,9 @@ const Login = () => {
       toast.error(e.message);
     }
   };
+  useEffect(() => {
+    isLoggedin && userData && navigate("/");
+  }, [isLoggedin, userData]);
 
   return (
     <section id="login">
