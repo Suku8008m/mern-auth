@@ -31,7 +31,7 @@ export const AppContextProvider = (props) => {
   
     try {
       const { data } = await axios.get(backendUrl + "/api/user/data");
-      console.log(data)
+      
       if (data.success) {
         setUserData(data.userData);
       } else {
