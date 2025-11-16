@@ -28,10 +28,10 @@ export const AppContextProvider = (props) => {
   };
 
   const getUserData = async () => {
-    console.log("Get userData called")
+  
     try {
       const { data } = await axios.get(backendUrl + "/api/user/data");
-      console.log(data)
+      console.log(data+"re")
       if (data.success) {
         setUserData(data.userData);
       } else {
