@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const NavBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  console.log(location.pathname);
+ 
   const { userData, backendUrl, setUserData, setIsLoggedin } =
     useContext(AppContext);
 
