@@ -30,6 +30,7 @@ export const AppContextProvider = (props) => {
   const getUserData = async () => {
     try {
       const { data } = await axios.get(backendUrl + "/api/user/data");
+      console.log(data)
       if (data.success) {
         setUserData(data.userData);
       } else {
@@ -39,7 +40,7 @@ export const AppContextProvider = (props) => {
       toast.error(error.message);
     }
   };
-console.log(userData)
+
   useEffect(() => {
     getAuthState();
   }, []);
