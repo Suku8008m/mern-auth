@@ -110,7 +110,7 @@ const ResetPassword = () => {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
-          <button type="submit">Submit</button>
+          <button type="submit">Reset</button>
         </form>
       )}
       {status === state.otp && (
