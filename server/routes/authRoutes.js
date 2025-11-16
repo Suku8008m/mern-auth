@@ -1,9 +1,9 @@
 import express from "express";
 import {
   isAuthenticated,
-  Login,
+  login,
   logOut,
-  Register,
+  register,
   resetPassword,
   sendResetOtp,
   sendVerifyOtp,
