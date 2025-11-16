@@ -25,6 +25,7 @@ const NavBar = () => {
     }
   };
   const sendVerificationOtp = async () => {
+    console.log("Verification otp sent");
     try {
       axios.defaults.withCredentials = true;
       const { data } = await axios.post(
