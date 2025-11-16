@@ -39,7 +39,7 @@ export const AppContextProvider = (props) => {
       toast.error(error.message);
     }
   };
-
+console.log(userData)
   useEffect(() => {
     getAuthState();
   }, []);
