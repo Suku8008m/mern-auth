@@ -9,7 +9,7 @@ import {
   WELCOME_EMAIL,
 } from "../config/emailTemplates.js";
 //1.Registration controller Function
-export const Register = async (req, res) => {
+export const register = async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
     return res.json({ success: false, message: "Missing Details" });
@@ -50,7 +50,7 @@ export const Register = async (req, res) => {
 
 //2.LoginIn controller Function
 
-export const Login = async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.json({
