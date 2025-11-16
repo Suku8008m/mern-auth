@@ -28,6 +28,7 @@ export const AppContextProvider = (props) => {
   };
 
   const getUserData = async () => {
+    console.log("Get userData called")
     try {
       const { data } = await axios.get(backendUrl + "/api/user/data");
       console.log(data)
