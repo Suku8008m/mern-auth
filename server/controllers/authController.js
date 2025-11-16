@@ -176,7 +176,7 @@ export const isAuthenticated = async (req, res) => {
 //Send Password Reset OTP
 export const sendResetOtp = async (req, res) => {
   const { email } = req.body;
-  return res.send(email)
+  return res.send("Lavada")
   if (!email) {
     return res.json({ success: false, message: "Email is required" });
   }
