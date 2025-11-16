@@ -33,7 +33,8 @@ export const register = async (req, res) => {
       path:'/',
       maxAge: 7 * 24 * 60 * 60 * 1000, //7 days to expire
     });
-    //Sunding welcome Email start
+     res.json({ success: true });
+    //Sending welcome Email start
     const mailOptions = {
       from: process.env.SENDER_EMAIL_ID,
       to: email,
@@ -41,9 +42,9 @@ export const register = async (req, res) => {
       text: `Welcome to GreatStact account and your account has created with email id:${email}`,
     };
     await transporter.sendMail(mailOptions);
-    //Sunding welcome Email end
+    //Sending welcome Email end
 
-    res.json({ success: true });
+   
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
