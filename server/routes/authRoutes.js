@@ -13,8 +13,8 @@ import userAuth from "../middleware/userAuth.js";
 
 const authRouter = express.Router();
 
-authRouter.post("/register", Register);
-authRouter.post("/login", Login);
+authRouter.post("/register", register);
+authRouter.post("/login", login);
 authRouter.post("/logout", logOut);
 authRouter.post("/send-verify-otp", userAuth, sendVerifyOtp);
 authRouter.post("/verify-account", userAuth, verifyEmail);
