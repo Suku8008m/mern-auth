@@ -50,10 +50,12 @@ const Login = () => {
           toast.error(data.message);
         }
       } else {
+        console.log("login clicked...Getting data");
         const { data } = await axios.post(backendUrl + "/api/auth/login", {
           email,
           password,
         },{ withCredentials: true });
+        console.log(data);
         if (data.success) {
           setIsLoggedin(true);
           getUserData();
