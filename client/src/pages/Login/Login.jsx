@@ -59,7 +59,7 @@ const Login = () => {
         if (data.success) {
           setIsLoggedin(true);
           getUserData();
-          console.log(userData);
+       
           navigate("/");
         } else {
           toast.error(data.message);
