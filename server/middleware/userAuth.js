@@ -6,7 +6,7 @@ const userAuth = async (req, res, next) => {
   const cond = req.body === undefined ? {} : req.body;
   req.body = cond;
   const { token } = req.cookies;
-  return token?res.send(token):res.send("Token ton generated");
+  
   if (!token) {
     return res.json({
       success: false,
