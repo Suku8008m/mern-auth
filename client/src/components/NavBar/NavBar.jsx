@@ -53,7 +53,7 @@ const NavBar = () => {
           {location.pathname !== "/login" &&
             location.pathname !== "/reset-password" &&
             location.pathname !== "/email-verify" && (
-              <p className="userName">{userData.name[0]}</p>
+              <p className="userName">{userData.name[0].toUpperCase()}</p>
             )}
 
           <ul className="options">
