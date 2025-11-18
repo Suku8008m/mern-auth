@@ -6,7 +6,7 @@ const userAuth = async (req, res, next) => {
   const cond = req.body === undefined ? {} : req.body;
   req.body = cond;
   const { token } = req.cookies;
-  return res.send(token)
+  
   if (!token) {
     return res.json({
       success: false,
