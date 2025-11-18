@@ -8,7 +8,7 @@ export const getUserData = async (req, res) => {
     if (!user) {
       return res.json({ success: false, message: "User not found" });
     }
-    return res.json("Lavada..")
+    
     return res.json({
       success: true,
       userData: {
