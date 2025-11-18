@@ -14,15 +14,22 @@ const port = process.env.PORT || 4000;
 connectDB();
 
 // --- CORS CONFIG ---
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://mern-auth-frontend-wnfw.onrender.com"
-];
-
 app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
+  origin: (origin, callback) => {
+    const allowed = [
+      "http://localhost:5173",
+      "https://mern-auth-frontend-wnfw.onrender.com"
+    ];
+
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
 }));
+
 
 // Middleware
 app.use(express.json());
