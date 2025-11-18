@@ -41,7 +41,7 @@ export const AppContextProvider = (props) => {
       toast.error(error.message);
     }
   };
-  useEffect(()=>{console.log(userData)},[userData])
+ console.log(userData)
   
 
   useEffect(() => {
