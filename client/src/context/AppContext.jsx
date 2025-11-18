@@ -41,6 +41,8 @@ export const AppContextProvider = (props) => {
       toast.error(error.message);
     }
   };
+  useEffect(()=>{console.log(userData)},[userData])
+  
 
   useEffect(() => {
     getAuthState();
