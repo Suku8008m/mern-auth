@@ -138,12 +138,14 @@ export const sendVerifyOtp = async (req, res) => {
     });
 
     // 👇 Send the email asynchronously (non-blocking)
+    res.send("Trying to send Email...")
     const mailOptions = {
       from: process.env.SENDER_EMAIL_ID,
       to: user.email,
       subject: "Account Verification OTP",
       text: `Your OTP is ${otp}. Verify your account using this OTP.`,
     };
+    res.send(mailOptions)
 
     transporter.sendMail(mailOptions).catch((err) =>
       console.log("Email Error:", err.message)
