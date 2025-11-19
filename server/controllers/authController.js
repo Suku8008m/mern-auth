@@ -115,6 +115,7 @@ export const logOut = async (req, res) => {
 export const sendVerifyOtp = async (req, res) => {
   try {
     const { userId } = req.body;
+
     const user = await userModel.findById(userId);
 
     if (!user) return res.json({ success: false, message: "User not found" });
@@ -122,35 +123,38 @@ export const sendVerifyOtp = async (req, res) => {
       return res.json({ success: false, message: "Already verified" });
 
     const otp = String(Math.floor(100000 + Math.random() * 900000));
+
     user.verifyOtp = otp;
     user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000;
     await user.save();
 
+    // Respond immediately
     res.json({ success: true, message: "OTP sent to your email" });
 
-    axios.post(
-      "https://api.mailersend.com/v1/email",
-      {
-        from: { email: "no-reply@trial.mailersend.com" },
-        to: [{ email: user.email }],
-        subject: "Your OTP Code",
-        text: `Your OTP is ${otp}. It expires in 24 hours.`,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.MAILERSEND_API_KEY}`,
-          "Content-Type": "application/json",
+    // Send OTP using BREVO
+    axios
+      .post(
+        "https://api.brevo.com/v3/smtp/email",
+        {
+          sender: { email: "no-reply@brevo.com" },   // <--- works without custom domain
+          to: [{ email: user.email }],
+          subject: "Your OTP Code",
+          htmlContent: `<p>Your OTP is <strong>${otp}</strong>. It expires in 24 hours.</p>`
         },
-      }
-    )
-    .then(() => console.log("Mailersend email sent!"))
-    .catch((err) => console.log("Email Error:", err.message));
+        {
+          headers: {
+            "api-key": process.env.BREVO_API_KEY,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(() => console.log("Brevo email sent!"))
+      .catch((err) => console.log("Email Error:", err.response?.data || err.message));
 
   } catch (err) {
     res.json({ success: false, message: err.message });
   }
 };
-
 
 export const verifyEmail = async (req, res) => {
   const { userId, otp } = req.body;
