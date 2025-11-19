@@ -136,7 +136,7 @@ export const sendVerifyOtp = async (req, res) => {
       .post(
         "https://api.brevo.com/v3/smtp/email",
         {
-          sender: { email: "no-reply@brevo.com" },   // <--- works without custom domain
+          sender: { email:"kamapallisukumar@gmail.com"},   // <--- works without custom domain
           to: [{ email: user.email }],
           subject: "Your OTP Code",
           htmlContent: `<p>Your OTP is <strong>${otp}</strong>. It expires in 24 hours.</p>`
