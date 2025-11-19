@@ -1,6 +1,7 @@
 //In this controller file we use different controller functions like
 //1.Register,2.Login,3.Logout,4.verifyacc,5.Password reset
 import bcrypt from "bcryptjs";
+import axios from "axios";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 import { resend } from "../config/email.js";
@@ -111,57 +112,42 @@ export const logOut = async (req, res) => {
 //4.Email verification controller function
 //Send verification otp to user account
 
-
 export const sendVerifyOtp = async (req, res) => {
   try {
     const { userId } = req.body;
-
     const user = await userModel.findById(userId);
 
-    if (!user) {
-      return res.json({ success: false, message: "User not found" });
-    }
+    if (!user) return res.json({ success: false, message: "User not found" });
+    if (user.isVerified)
+      return res.json({ success: false, message: "Already verified" });
 
-    if (user.isVerified) {
-      return res.json({
-        success: false,
-        message: "Account already verified",
-      });
-    }
-
-    // Generate OTP
     const otp = String(Math.floor(100000 + Math.random() * 900000));
-
     user.verifyOtp = otp;
     user.verifyOtpExpireAt = Date.now() + 24 * 60 * 60 * 1000;
-
     await user.save();
 
-    // Respond fast
-    res.json({
-      success: true,
-      message: "Verification OTP sent to your email",
-    });
+    res.json({ success: true, message: "OTP sent to your email" });
 
-    // Send OTP using Resend (non-blocking)
-    resend.emails
-      .send({
-        from: "onboarding@resend.dev",
-        to: user.email,
+    axios.post(
+      "https://api.mailersend.com/v1/email",
+      {
+        from: { email: "no-reply@trial.mailersend.com" },
+        to: [{ email: user.email }],
         subject: "Your OTP Code",
         text: `Your OTP is ${otp}. It expires in 24 hours.`,
-      })
-      .then(() => console.log("Email sent"))
-      .catch((err) => console.log("Email Error:", err.message));
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.MAILERSEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then(() => console.log("Mailersend email sent!"))
+    .catch((err) => console.log("Email Error:", err.message));
 
-
-  }
-   catch (error) {
-    console.log("Controller Error:", error.message);
-    res.json({
-      success: false,
-      message: error.message,
-    });
+  } catch (err) {
+    res.json({ success: false, message: err.message });
   }
 };
 
