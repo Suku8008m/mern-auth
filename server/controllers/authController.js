@@ -5,7 +5,7 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
-import {verifyTemplate} from '../config/templates.js';
+import {verifyEmail} from '../config/templates.js';
 
 import transporter from "../config/nodemailer.js";
 import {
@@ -141,7 +141,7 @@ export const sendVerifyOtp = async (req, res) => {
           sender: { email:"kamapallisukumar@gmail.com"},   // <--- works without custom domain
           to: [{ email: user.email }],
           subject: "Your OTP Code",
-          htmlContent: verifyTemplate.replace('{{OTP_CODE}}',otp)
+          htmlContent: verifyEmail.replace('{{OTP_CODE}}',otp)
         },
         {
           headers: {
