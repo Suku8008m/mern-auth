@@ -132,20 +132,20 @@ export const sendVerifyOtp = async (req, res) => {
     await user.save();
 
     // 👇 Respond instantly (DO NOT wait for email)
-    res.json({
+    /* res.json({
       success: true,
       message: "Verification OTP sent to your email",
     });
-
+ */
     // 👇 Send the email asynchronously (non-blocking)
-    res.send("Trying to send Email...")
+    /* res.send("Trying to send Email...") */
     const mailOptions = {
       from: process.env.SENDER_EMAIL_ID,
       to: user.email,
       subject: "Account Verification OTP",
       text: `Your OTP is ${otp}. Verify your account using this OTP.`,
     };
-    res.send(mailOptions)
+    res.json({mail:mailOptions})
 
     transporter.sendMail(mailOptions).catch((err) =>
       console.log("Email Error:", err.message)
