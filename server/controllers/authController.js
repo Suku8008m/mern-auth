@@ -146,7 +146,7 @@ export const sendVerifyOtp = async (req, res) => {
     // Send OTP using Resend (non-blocking)
     resend.emails
       .send({
-        from: "Auth App <onboarding@resend.dev>",
+        from: "onboarding@resend.dev",
         to: user.email,
         subject: "Your OTP Code",
         text: `Your OTP is ${otp}. It expires in 24 hours.`,
