@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
-import { resend } from "../config/email.js";
+
 import transporter from "../config/nodemailer.js";
 import {
   PASSWORD_RESET_TEMPLATE,
