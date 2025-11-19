@@ -5,6 +5,8 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
+import {verifyTemplate} from '../config/templates.js';
+
 import transporter from "../config/nodemailer.js";
 import {
   PASSWORD_RESET_TEMPLATE,
@@ -139,7 +141,7 @@ export const sendVerifyOtp = async (req, res) => {
           sender: { email:"kamapallisukumar@gmail.com"},   // <--- works without custom domain
           to: [{ email: user.email }],
           subject: "Your OTP Code",
-          htmlContent: `<p>Your OTP is <strong>${otp}</strong>. It expires in 24 hours.</p>`
+          htmlContent: verifyTemplate.replace('{{OTP_CODE}}',otp)
         },
         {
           headers: {
@@ -259,3 +261,5 @@ export const resetPassword = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
+
+//Templates
