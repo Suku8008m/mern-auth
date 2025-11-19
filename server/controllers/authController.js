@@ -3,6 +3,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
+import { resend } from "../config/email.js";
 import transporter from "../config/nodemailer.js";
 import {
   PASSWORD_RESET_TEMPLATE,
@@ -110,11 +111,16 @@ export const logOut = async (req, res) => {
 //4.Email verification controller function
 //Send verification otp to user account
 
+
 export const sendVerifyOtp = async (req, res) => {
   try {
     const { userId } = req.body;
 
     const user = await userModel.findById(userId);
+
+    if (!user) {
+      return res.json({ success: false, message: "User not found" });
+    }
 
     if (user.isVerified) {
       return res.json({
@@ -131,28 +137,27 @@ export const sendVerifyOtp = async (req, res) => {
 
     await user.save();
 
-    // 👇 Respond instantly (DO NOT wait for email)
-     res.json({
+    // Respond fast
+    res.json({
       success: true,
       message: "Verification OTP sent to your email",
     });
- 
-    // 👇 Send the email asynchronously (non-blocking)
-    
-    const mailOptions = {
-      from: process.env.SENDER_EMAIL_ID,
-      to: user.email,
-      subject: "Account Verification OTP",
-      text: `Your OTP is ${otp}. Verify your account using this OTP.`,
-    };
-   
 
-    transporter.sendMail(mailOptions)
-  .then(() => console.log("Email sent"))
-  .catch((err) => console.error("Email Error:", err));
+    // Send OTP using Resend (non-blocking)
+    resend.emails
+      .send({
+        from: "Auth App <onboarding@resend.dev>",
+        to: user.email,
+        subject: "Your OTP Code",
+        text: `Your OTP is ${otp}. It expires in 24 hours.`,
+      })
+      .then(() => console.log("Email sent"))
+      .catch((err) => console.log("Email Error:", err.message));
 
 
-  } catch (error) {
+  }
+   catch (error) {
+    console.log("Controller Error:", error.message);
     res.json({
       success: false,
       message: error.message,
