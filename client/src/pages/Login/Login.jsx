@@ -6,9 +6,11 @@ import "./index.css";
 import { AppContext } from "../../context/AppContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loader from '../../components/Loader/Loader'
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loader,setLoader]=useState(false)
 
   const { backendUrl, isLoggedin, userData, setIsLoggedin, getUserData } =
     useContext(AppContext);
@@ -132,8 +134,9 @@ const Login = () => {
           <div className="bottom">
             <p className="para-bottom">Already have an account?</p>
             <span className="link">
+              
               <button type="button" onClick={onChangeForm}>
-                Login here
+                {loader?<Loader/>:Login}
               </button>
             </span>
           </div>
