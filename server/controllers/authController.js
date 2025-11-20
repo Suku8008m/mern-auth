@@ -7,8 +7,6 @@ import userModel from "../models/userModel.js";
 
 import {verifyEmailTemplate,PASSWORD_RESET_TEMPLATE,WELCOME_EMAIL} from '../config/emailTemplates.js';
 
-import transporter from "../config/nodemailer.js";
-
 //1.Registration controller Function
 export const register = async (req, res) => {
   try {
