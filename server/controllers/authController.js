@@ -14,43 +14,58 @@ import {
 } from "../config/emailTemplates.js";
 //1.Registration controller Function
 export const register = async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) {
-    return res.json({ success: false, message: "Missing Details" });
-  }
   try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res.json({ success: false, message: "Missing Details" });
+    }
+
     const existingUser = await userModel.findOne({ email });
     if (existingUser) {
       return res.json({ success: false, message: "User already exists" });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new userModel({ name, email, password: hashedPassword });
     await user.save();
-    //generate an access token
+
+    // Generate an access token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
+
+    // Respond immediately
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "none",
-      path:'/',
-      maxAge: 7 * 24 * 60 * 60 * 1000, //7 days to expire
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-     res.json({ success: true });
-    //Sending welcome Email start
-    const mailOptions = {
-      from: process.env.SENDER_EMAIL_ID,
-      to: email,
-      subject: "Welcome to GreatStack",
-      text: `Welcome to GreatStact account and your account has created with email id:${email}`,
-    };
-    await transporter.sendMail(mailOptions);
-    //Sending welcome Email end
+    res.json({ success: true, message: "User registered successfully" });
 
-   
+    // Send welcome email asynchronously
+    axios
+      .post(
+        "https://api.brevo.com/v3/smtp/email",
+        {
+          sender: { email: process.env.SENDER_EMAIL_ID },
+          to: [{ email: user.email }],
+          subject: "Welcome to GreatStack",
+          htmlContent: `<p>Welcome to GreatStack! Your account has been created with email: ${email}</p>`,
+        },
+        {
+          headers: {
+            "api-key": process.env.BREVO_API_KEY,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(() => console.log("Welcome email sent!"))
+      .catch((err) => console.log("Email Error:", err.response?.data || err.message));
+    
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -138,7 +153,7 @@ export const sendVerifyOtp = async (req, res) => {
       .post(
         "https://api.brevo.com/v3/smtp/email",
         {
-          sender: { email:"kamapallisukumar@gmail.com"},   // <--- works without custom domain
+          sender: { email:process.env.SENDER_EMAIL_ID},   // <--- works without custom domain
           to: [{ email: user.email }],
           subject: "Your OTP Code",
           htmlContent: verifyEmailTemplate.replace('{{OTP_CODE}}',otp)
