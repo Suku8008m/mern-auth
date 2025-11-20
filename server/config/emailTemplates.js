@@ -176,5 +176,4 @@ export const verifyEmailTemplate=`<!DOCTYPE html>
 </body>
 
 </html>
-
-in brevo`
+`
