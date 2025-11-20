@@ -47,7 +47,7 @@ export const register = async (req, res) => {
           sender: { email: process.env.SENDER_EMAIL_ID },
           to: [{ email: user.email }],
           subject: "Welcome to GreatStack",
-          htmlContent: WELCOME_EMAIL.replace('{{USER_NAME}}', user.name || ''),
+          htmlContent: WELCOME_EMAIL.replace('[User Name]', user.name || ''),
         },
         {
           headers: {
