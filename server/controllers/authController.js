@@ -234,9 +234,8 @@ export const sendResetOtp = async (req, res) => {
           sender: { email: process.env.SENDER_EMAIL_ID },
           to: [{ email: user.email }],
           subject: "Password Reset OTP",
-          htmlContent: `<p>Hello ${user.name || ""},</p>
-                        <p>Your OTP for resetting your password is <strong>${otp}</strong>.</p>
-                        <p>This OTP is valid for 15 minutes.</p>`,
+          htmlContent: htmlContent: PASSWORD_RESET_TEMPLATE.replace('{{123}}', otp)
+,
         },
         {
           headers: {
