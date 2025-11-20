@@ -229,7 +229,7 @@ export const PASSWORD_RESET_TEMPLATE = `<!DOCTYPE html>
 
         <!-- OTP Code Display Area -->
         <div id="otp-display" class="otp-code bg-gray-100 text-gray-800 rounded-lg p-5 mb-6 inline-block select-all cursor-text">
-            123456
+            {{123}}
         </div>
         
         <p class="text-xs text-red-500 mt-2 mb-6">
@@ -260,7 +260,7 @@ export const PASSWORD_RESET_TEMPLATE = `<!DOCTYPE html>
         // Simulate generating a fresh 6-digit OTP
         function generateOTP() {
             // This is static for the template, but shows where dynamic generation would go
-            return '123456'; 
+            return {{123}}; 
         }
 
         // Set the OTP on load
@@ -314,7 +314,7 @@ export const WELCOME_EMAIL = `<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to [App Name]!</title>
+    <title>Welcome to MernAuth!</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
