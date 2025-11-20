@@ -368,7 +368,7 @@ export const WELCOME_EMAIL = `<!DOCTYPE html>
             </h2>
             
             <p class="mb-5 text-lg">
-                We're absolutely thrilled to have you join the community. We've built [App Name] to help you achieve your goals by [mention core benefit, e.g., organizing your projects efficiently].
+                We're absolutely thrilled to have you join the community. We've built MernAuth to experience user authentication.
             </p>
 
             <p class="mb-8">
@@ -377,7 +377,7 @@ export const WELCOME_EMAIL = `<!DOCTYPE html>
 
             <!-- Call-to-Action Button -->
             <div class="text-center mb-8">
-                <a href="#" style="background-color: #4f46e5; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; display: inline-block; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                <a href="https://mern-auth-frontend-wnfw.onrender.com/" style="background-color: #4f46e5; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; display: inline-block; font-size: 16px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
                     Go to Your Dashboard
                 </a>
             </div>
