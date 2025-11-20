@@ -36,9 +36,11 @@ const Login = () => {
 
   const submitForm = async (event) => {
     try {
+      
       event.preventDefault();
       axios.defaults.withCredentials = true;
       if (state === "Sign Up") {
+        setLoader(true)
         const { data } = await axios.post(backendUrl + "/api/auth/register", {
           email,
           name,
@@ -48,31 +50,37 @@ const Login = () => {
           setIsLoggedin(true);
           getUserData();
           navigate("/");
+          setLoader(false)
         } else {
           toast.error(data.message);
+          setLoader(false)
+
         }
       } else {
-        console.log("login clicked...Getting data");
+          setLoader(true)
+        
         const { data } = await axios.post(backendUrl + "/api/auth/login", {
           email,
           password,
         },{ withCredentials: true });
-        console.log(data);
+        
         if (data.success) {
+          setLoader(false)
           setIsLoggedin(true);
           getUserData();
-       
           navigate("/");
         } else {
+          setLoader(false)
           toast.error(data.message);
         }
       }
     } catch (e) {
+          setLoader(false)
       toast.error(e.message);
     }
   };
   useEffect(() => {
-    isLoggedin && userData && navigate("/");
+    isLoggedin && userData &&setLoader(false)&& navigate("/");
   }, [isLoggedin, userData]);
 
   return (
@@ -136,7 +144,7 @@ const Login = () => {
             <span className="link">
               
               <button type="button" onClick={onChangeForm}>
-                {loader?<Loader/>:Login}
+                {loader?<Loader/>:"Login"}
               </button>
             </span>
           </div>
