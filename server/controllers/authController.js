@@ -99,7 +99,7 @@ export const login = async (req, res) => {
       path:"/",
       maxAge: 7 * 24 * 60 * 60 * 1000, //7 days to expire
     });
-    return res.json({ success: true });
+    return res.json({ success: true ,message: "Login successful"});
   } catch (error) {
     return res.json({
       success: false,
@@ -193,7 +193,7 @@ export const verifyEmail = async (req, res) => {
     user.isVerified = true;
     user.verifyOtp = "";
     user.verifyOtpExpireAt = 0;
-    user.save();
+    await user.save();
     return res.json({ success: true, message: "Email verified successfully" });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -212,34 +212,49 @@ export const isAuthenticated = async (req, res) => {
 
 //Send Password Reset OTP
 export const sendResetOtp = async (req, res) => {
-  const { email } = req.body;
-
-  if (!email) {
-    return res.json({ success: false, message: "Email is required" });
-  }
   try {
+    const { email } = req.body;
+    if (!email) {
+      return res.json({ success: false, message: "Email is required" });
+    }
+
     const user = await userModel.findOne({ email });
     if (!user) {
       return res.json({ success: false, message: "User not found" });
     }
-    const otp = String(Math.floor(100000 + Math.random() * 900000)); //6digit otp
+
+    const otp = String(Math.floor(100000 + Math.random() * 900000)); // 6-digit OTP
     user.resetOtp = otp;
-    user.resetOtpExpireAt = Date.now() + 15 * 60 * 1000;
+    user.resetOtpExpireAt = Date.now() + 15 * 60 * 1000; // 15 minutes
     await user.save();
-    const mailOptions = {
-      from: process.env.SENDER_EMAIL_ID,
-      to: user.email,
-      subject: "Password Reset OTP",
-      text: `your OTP for resetting your password is ${otp}.Reset your password using this OTP`,
-      /* html: PASSWORD_RESET_TEMPLATE.replace("%FIRSTNAME|%", user.name)
-        .replace("%LASTNAME|%", `<br/> Your OTP :- ${otp}`)
-        .replace("your@mail.com", user.email),
-   */
-    };
-    await transporter.sendMail(mailOptions);
-    res.json({ success: true, message: "OTP Sent on Email" });
+
+    // Respond immediately
+    res.json({ success: true, message: "OTP sent to your email" });
+
+    // Send OTP email asynchronously via BREVO
+    axios
+      .post(
+        "https://api.brevo.com/v3/smtp/email",
+        {
+          sender: { email: process.env.SENDER_EMAIL_ID },
+          to: [{ email: user.email }],
+          subject: "Password Reset OTP",
+          htmlContent: `<p>Hello ${user.name || ""},</p>
+                        <p>Your OTP for resetting your password is <strong>${otp}</strong>.</p>
+                        <p>This OTP is valid for 15 minutes.</p>`,
+        },
+        {
+          headers: {
+            "api-key": process.env.BREVO_API_KEY,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then(() => console.log("Reset OTP email sent!"))
+      .catch((err) => console.log("Email Error:", err.response?.data || err.message));
+
   } catch (error) {
-    return res.json({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
