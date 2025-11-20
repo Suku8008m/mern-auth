@@ -5,7 +5,7 @@ import axios from "axios";
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
-import {verifyEmailTemplate} from '../config/emailTemplates.js';
+import {verifyEmailTemplate,PASSWORD_RESET_TEMPLATE,WELCOME_EMAIL} from '../config/emailTemplates.js';
 
 import transporter from "../config/nodemailer.js";
 import {
